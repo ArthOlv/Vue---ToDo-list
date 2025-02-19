@@ -60,9 +60,21 @@
 
           this.name = '';
           this.message = '';
+
+          this.saveComments();
         },
         removeComment(index) {
           this.comments.splice(index, 1);
+          this.saveComments();
+        },
+        saveComments() {
+          localStorage.setItem('comments', JSON.stringify(this.comments));
+        },
+        loadComments() {
+          const savedComments = localStorage.getItem('comments');
+          if (savedComments) {
+            this.comments = JSON.parse(savedComments);
+          }
         }
       },
       computed: {
@@ -77,13 +89,15 @@
         comments(val) {
           console.log('val', val)
         }
+      },
+      mounted() {
+        this.loadComments();
       }
     })
   </script>
 </body>
 
 <style>
-
     body{
         display: flex;
         background-color: #031424;
